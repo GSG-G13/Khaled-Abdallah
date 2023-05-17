@@ -12,10 +12,10 @@ class CardList extends Component {
       genres: [],
       searchQuery: '',
       selectedCategory: '',
+     
     };
     this.pages = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     this.filterList = ['Now Playing', 'Popular', 'Top Rated', 'Upcoming']
-
   }
 
   componentDidMount() {
@@ -36,17 +36,7 @@ class CardList extends Component {
     }
   };
 
-  changelist = (selectedCategory) => {
-    this.setState(
-      {
-        selectedCategory,
-        page: 1,
-      },
-      () => {
-        this.fetchData();
-      }
-    );
-  };
+
   
 
   fetchData = async () => {
@@ -71,17 +61,29 @@ class CardList extends Component {
     }
   };
   
-  changeFilter(filter){
-    this.setState({ filter: filter }, ()=> {
+  changelist = (selectedCategory) => {
+    this.setState(
+      {
+        selectedCategory,
+        page: 1,
+      },
+      () => {
+        this.fetchData();
+      }
+    );
+  };
+
+
+changeFilter(filter) {
+    this.setState({ filter: filter, page: 1 }, () => {
       console.log(this.state.filter);
-      this.setState({ url : `https://api.themoviedb.org/3/movie/${this.state.filter}?include_adult=false&api_key=b9da8a8928ade30c5680978edd9a4330&language=en-US&page=`}, ()=> {
-        console.log(this.filterUrl);
+      this.setState({ url: `https://api.themoviedb.org/3/movie/${filter}?api_key=b9da8a8928ade30c5680978edd9a4330&language=en-US&page=`}, () => {
         console.log(this.state.url);
-        this.fetchData()
-      })
-      
-    })
+        this.fetchData();
+      });
+    });
   }
+  
   changePage = (page) => {
     this.setState({ page }, () => {
       this.fetchData();
@@ -103,7 +105,7 @@ class CardList extends Component {
 
 
   render() {
-    const { data, genres , searchQuery} = this.state;
+    const { data, genres , searchQuery, } = this.state;
 
     return (
       <main>
@@ -128,7 +130,7 @@ class CardList extends Component {
         </div>
         <br />
         <div className="filter">
-            {this.filterList.map(filter => <div key={filter} onClick={()=> this.changeFilter(filter.toLowerCase().replace(' ', '_'))}>{filter}</div>)}
+        {this.filterList.map(filter => <div key={filter} onClick={()=> this.changeFilter(filter.toLowerCase().replace(' ', '_'))}>{filter}</div>)}
           </div>
         <div className="cards-grid">
           {data ? (
