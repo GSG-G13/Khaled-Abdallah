@@ -165,8 +165,11 @@ nav .fa-clipboard-list::before {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  grid-template-columns: 1fr 1fr 1fr;
   padding-bottom: 120px;
 }
+
+
 .card-full {
   display: flex;
   flex-direction: column;
